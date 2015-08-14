@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<strings>
+    <string id="30000">Basic</string>
+    <string id="30001">Advanced</string>
+    <string id="30002">Show original title in Search result</string>
+    <string id="30003">Use images in themoviedb.org</string>
+    <string id="30004">Clean synopsys text</string>
+    <string id="30005">Search themoviedb with Google</string>
+    <string id="30006">Preferred Language for themoviedb</string>
+    <string id="30007">Combine Korean and English titles in one</string>
+</strings>

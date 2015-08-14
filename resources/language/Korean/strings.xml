@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<strings>
+    <string id="30000">기본</string>
+    <string id="30001">고급</string>
+    <string id="30002">검색결과에 원제목 표시</string>
+    <string id="30003">themoviedb.org 사진 사용</string>
+    <string id="30004">깨끗한 줄거리</string>
+    <string id="30005">themoviedb 검색에 Google 사용</string>
+    <string id="30006">themoviedb에 사용할 언어</string>
+    <string id="30007">한글명과 영문명을 합쳐서 표시</string>
+</strings>

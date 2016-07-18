@@ -1,3 +1,9 @@
+2.1.0
+
+Changes
+- search url is changed
+- desktop pages are replaced by mobile pages
+
 2.0.2
 
 Changes

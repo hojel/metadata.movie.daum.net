@@ -1,26 +1,23 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <scraper framework="1.1" date="2013-01-30">
 	<NfoUrl dest="3">
-		<RegExp input="$$1" output="&lt;details&gt;&lt;url cache=&quot;daum-movie-\1.json&quot;&gt;http://m.movie.daum.net/data/movie/movie_info/detail.json?movieId=\1&lt;/url&gt;&lt;id&gt;\1&lt;/id&gt;&lt;/details&gt;" dest="3">
+		<RegExp input="$$1" output="&lt;details&gt;&lt;url cache=&quot;daum-movie-\1.json&quot;&gt;http://movie.daum.net/data/movie/movie_info/detail.json?movieId=\1&lt;/url&gt;&lt;id&gt;\1&lt;/id&gt;&lt;/details&gt;" dest="3">
 			<expression clear="yes" noclean="1">movie\.daum\.net[^\?]*\?movieId=(\d*)</expression>
 		</RegExp>
 	</NfoUrl>
 	<CreateSearchUrl dest="3">
-		<RegExp input="$$1" output="&lt;url&gt;http://movie.daum.net/search.do?type=movie&amp;q=\1&lt;/url&gt;" dest="3">
+		<RegExp input="$$1" output="&lt;url&gt;http://movie.daum.net/data/movie/search/v2/movie.json?size=20&amp;start=1&amp;searchText=\1&lt;/url&gt;" dest="3">
 			<expression noclean="1" />
 		</RegExp>
 	</CreateSearchUrl>
 	<GetSearchResults dest="4">
 		<RegExp input="$$5" output="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;&lt;results&gt;\1&lt;/results&gt;" dest="4">
-			<RegExp conditional="!OrigTitleInSrchResult" input="$$1" output="&lt;entity&gt;&lt;title&gt;\2&lt;/title&gt;&lt;year&gt;\3&lt;/year&gt;&lt;id&gt;\1&lt;/id&gt;&lt;url cache=&quot;daum-movie-\1.json&quot;&gt;http://m.movie.daum.net/data/movie/movie_info/detail.json?movieId=\1&lt;/url&gt;&lt;/entity&gt;" dest="5">
-				<expression repeat="yes" trim="2">class="fl srch"&gt;&lt;a href="http://movie.daum.net/moviedetail/moviedetailMain.do\?movieId=(\d+)"[^&gt;]*&gt;([^"]*)&lt;/a&gt;\s*\((\d+)\)&lt;/span&gt;[^\(]*"fs13"&gt;([^"]*)&lt;/span</expression>
+			<RegExp conditional="!OrigTitleInSrchResult" input="$$1" output="&lt;entity&gt;&lt;title&gt;\2&lt;/title&gt;&lt;year&gt;\4&lt;/year&gt;&lt;id&gt;\1&lt;/id&gt;&lt;url cache=&quot;daum-movie-\1.json&quot;&gt;http://movie.daum.net/data/movie/movie_info/detail.json?movieId=\1&lt;/url&gt;&lt;/entity&gt;" dest="5">
+				<expression repeat="yes" trim="2,3">"movieId":(\d+),"titleKo":"([^"]*)","titleEn":"?([^",]*)"?,[^}]*"prodYear":(\d*)</expression>
 			</RegExp>
 			<RegExp conditional="OrigTitleInSrchResult" input="$$6" output="\1" dest="5">
-				<RegExp input="$$1" output="&lt;entity&gt;&lt;title&gt;\2(\4)&lt;/title&gt;&lt;year&gt;\3&lt;/year&gt;&lt;id&gt;\1&lt;/id&gt;&lt;url cache=&quot;daum-movie-\1.json&quot;&gt;http://m.movie.daum.net/data/movie/movie_info/detail.json?movieId=\1&lt;/url&gt;&lt;/entity&gt;" dest="6">
-					<expression repeat="yes" trim="2,4">class="fl srch"&gt;&lt;a href="http://movie.daum.net/moviedetail/moviedetailMain.do\?movieId=(\d+)"[^&gt;]*&gt;([^"]*)&lt;/a&gt;\s*\((\d+)\)&lt;/span&gt;[^\(]*"fs13"&gt;\s*([^"]+)&lt;/span</expression>
-				</RegExp>
-				<RegExp input="$$1" output="&lt;entity&gt;&lt;title&gt;\2&lt;/title&gt;&lt;year&gt;\3&lt;/year&gt;&lt;id&gt;\1&lt;/id&gt;&lt;url cache=&quot;daum-movie-\1.json&quot;&gt;http://m.movie.daum.net/data/movie/movie_info/detail.json?movieId=\1&lt;/url&gt;&lt;/entity&gt;" dest="6+">
-					<expression repeat="yes" trim="2">class="fl srch"&gt;&lt;a href="http://movie.daum.net/moviedetail/moviedetailMain.do\?movieId=(\d+)"[^&gt;]*&gt;([^"]*)&lt;/a&gt;\s*\((\d+)\)&lt;/span&gt;[^\(]*"fs13"&gt;\s*&lt;/span</expression>
+				<RegExp input="$$1" output="&lt;entity&gt;&lt;title&gt;\2(\3)&lt;/title&gt;&lt;year&gt;\4&lt;/year&gt;&lt;id&gt;\1&lt;/id&gt;&lt;url cache=&quot;daum-movie-\1.json&quot;&gt;http://movie.daum.net/data/movie/movie_info/detail.json?movieId=\1&lt;/url&gt;&lt;/entity&gt;" dest="6">
+					<expression repeat="yes" trim="2,3">"movieId":(\d+),"titleKo":"([^"]*)","titleEn":"?([^",]*)"?,[^}]*"prodYear":(\d*)</expression>
 				</RegExp>
 				<expression noclean="1" />
 			</RegExp>
@@ -98,13 +95,13 @@
 			<RegExp input="$$1" output="&lt;chain function=&quot;GetTMDBInfoByNameChain&quot;&gt;\1&lt;/chain&gt;" dest="5+">
 				<expression>"titleEn":"([^"]+)",</expression>
 			</RegExp>
-			<RegExp input="$$2" output="&lt;url function=&quot;ParseDaumCast&quot; cache=&quot;daum-mcast-\1.json&quot;&gt;http://m.movie.daum.net/data/movie/movie_info/cast_crew.json?pageNo=1&amp;pageSize=100&amp;movieId=\1&lt;/url&gt;" dest="5+">
+			<RegExp input="$$2" output="&lt;url function=&quot;ParseDaumCast&quot; cache=&quot;daum-mcast-\1.json&quot;&gt;http://movie.daum.net/data/movie/movie_info/cast_crew.json?pageNo=1&amp;pageSize=100&amp;movieId=\1&lt;/url&gt;" dest="5+">
 				<expression />
 			</RegExp>
-			<RegExp input="$$2" output="&lt;url function=&quot;ParseDaumPhoto&quot; cache=&quot;daum-mimg-\1.json&quot;&gt;http://m.movie.daum.net/data/movie/photo/movie/list.json?pageNo=1&amp;pageSize=200&amp;id=\1&lt;/url&gt;" dest="5+">
+			<RegExp input="$$2" output="&lt;url function=&quot;ParseDaumPhoto&quot; cache=&quot;daum-mimg-\1.json&quot;&gt;http://movie.daum.net/data/movie/photo/movie/list.json?pageNo=1&amp;pageSize=200&amp;id=\1&lt;/url&gt;" dest="5+">
 				<expression />
 			</RegExp>
-			<RegExp input="$$2" output="&lt;url function=&quot;ParseDaumVideoClip&quot; cache=&quot;daum-mclip-\1.json&quot;&gt;http://m.movie.daum.net/data/movie/vclip/movie/list.json?pageNo=1&amp;pageSize=5&amp;id=\1&lt;/url&gt;" dest="5+">
+			<RegExp input="$$2" output="&lt;url function=&quot;ParseDaumVideoClip&quot; cache=&quot;daum-mclip-\1.json&quot;&gt;http://movie.daum.net/data/movie/vclip/movie/list.json?pageNo=1&amp;pageSize=5&amp;id=\1&lt;/url&gt;" dest="5+">
 				<expression />
 			</RegExp>
 			<expression noclean="1" />
@@ -163,9 +160,6 @@
 			</RegExp>
 			<RegExp input="$$1" output="&lt;trailer&gt;\1&lt;/trailer&gt;" dest="5">
 				<expression repeat="yes">"subTitle":"[^"]*예고편[^"]*"[^}]+"fileUrl":"([^"]+)"</expression>
-			</RegExp>
-			<RegExp conditional="fixVideoURL" input="$$5" output="\1\2.\3" dest="5">
-				<expression encode="2">(.*/)(.*)[,\.](.*)</expression>
 			</RegExp>
 			<expression noclean="1"/>
 		</RegExp>

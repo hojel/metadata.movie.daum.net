@@ -68,7 +68,7 @@
 					<RegExp input="$$1" output="\1" dest="7">
 						<expression>"plot":"(.*?)"</expression>
 					</RegExp>
-					<expression repeat="yes" noclean="1">(?:\\r|(\\[^r]|[^\\]))</expression>
+					<expression clear="yes" repeat="yes" noclean="1">(?:\\r|(\\[^r]|[^\\]))</expression>
 				</RegExp>
 				<expression trim="1" />
 			</RegExp>
